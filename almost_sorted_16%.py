@@ -17,9 +17,9 @@ import sys
 def binarySearch(arr, startAt, upto, elem):
     r = upto + 1
     l = startAt - 1
-    while (r - l > 1):
-        m = l + (r - l)//2
-        if (arr[m] > elem):
+    while r - l > 1:
+        m = l + (r - l) // 2
+        if arr[m] > elem:
             r = m
         else:
             l = m
@@ -34,7 +34,7 @@ def modifySequence(arr):
     negOffset = 1
 
     lasts.append(1)
-    if (arr[0] != 1):
+    if arr[0] != 1:
         lasts.append(arr[0])
         lastInd += 1
         negOffset -= 1
@@ -42,14 +42,14 @@ def modifySequence(arr):
     for i in range(1, n):
         elem = arr[i] - offset
         offset += 1
-        if (elem > lasts[lastInd]):
+        if elem > lasts[lastInd]:
             lastInd += 1
             lasts.append(elem)
             # print(lasts, offset)
-        elif(elem < 1):
+        elif elem < 1:
             continue
         else:
-            if (elem == lasts[lastInd]):
+            if elem == lasts[lastInd]:
                 negOffset += 1
                 continue
             else:
@@ -59,8 +59,8 @@ def modifySequence(arr):
     return offset - lastInd - negOffset
 
 
-if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+if __name__ == "__main__":
+    fptr = open(os.environ["OUTPUT_PATH"], "w")
 
     arr_count = int(input().strip())
 
@@ -68,6 +68,6 @@ if __name__ == '__main__':
 
     result = modifySequence(arr)
 
-    fptr.write(str(result) + '\n')
+    fptr.write(str(result) + "\n")
 
     fptr.close()

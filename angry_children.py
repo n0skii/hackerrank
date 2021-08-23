@@ -26,7 +26,7 @@ def angryChildren(k, packets):
     for i, elem in enumerate(initialArr):
         currentSum += (2 * i - k + 1) * elem
         overallSum += elem
-    
+
     minSum = currentSum
     for i in range(len(packets) - k):
         currentSum += (k - 1) * packets[i]
@@ -40,8 +40,8 @@ def angryChildren(k, packets):
     return minSum
 
 
-if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+if __name__ == "__main__":
+    fptr = open(os.environ["OUTPUT_PATH"], "w")
 
     n = int(input().strip())
 
@@ -55,6 +55,6 @@ if __name__ == '__main__':
 
     result = angryChildren(k, packets)
 
-    fptr.write(str(result) + '\n')
+    fptr.write(str(result) + "\n")
 
     fptr.close()
