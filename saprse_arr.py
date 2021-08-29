@@ -5,6 +5,7 @@ import os
 import random
 import re
 import sys
+from typing import Counter
 
 #
 # Complete the 'matchingStrings' function below.
@@ -16,9 +17,41 @@ import sys
 #
 
 
+class Node(object):
+    def __init__(self) -> None:
+        super().__init__()
+        self.childMap = dict()
+        self.childNum = 0
+        self.count = -1
+
+
 def matchingStrings(strings, queries):
-    # Write your code here
-    pass
+    trie = Node()
+
+    for s in strings:
+        curNode: Node = trie
+        for char in s:
+            if char in curNode.childMap:
+                curNode = curNode.childMap[char]
+            else:
+                newNode = Node()
+                newNode.count = 0
+                curNode.childMap[char] = newNode
+                curNode = newNode
+        curNode.count += 1
+
+    for q in queries:
+        curNode: Node = trie
+        alreadyPrinted = False
+        for char in q:
+            if char in curNode.childMap:
+                curNode = curNode.childMap[char]
+            else:
+                print("0")
+                alreadyPrinted = True
+                break
+        if not alreadyPrinted:
+            print(curNode.count)
 
 
 if __name__ == "__main__":

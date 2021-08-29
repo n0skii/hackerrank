@@ -15,8 +15,29 @@ import sys
 
 
 def isBalanced(s):
-    # Write your code here
-    pass
+    opening = ["(", "[", "{"]
+    closing = [")", "]", "}"]
+    stack: list = list()
+    for char in s:
+        if char in opening:
+            stack.append(char)
+        else:
+            if len(stack) == 0:
+                print("NO")
+                return
+            lastBracket = stack.pop()
+            match = False
+            for i in range(3):
+                if lastBracket == opening[i] and char == closing[i]:
+                    match = True
+                    break
+            if not match:
+                print("NO")
+                return
+    if len(stack) == 0:
+        print("YES")
+    else:
+        print("NO")
 
 
 if __name__ == "__main__":

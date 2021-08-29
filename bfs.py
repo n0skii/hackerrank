@@ -20,11 +20,12 @@ import sys
 
 
 class Node:
-    def __init__(self, posX: int, posY: int, distGain, curDist) -> None:
-        self.curDist = curDist + 1
+    def __init__(self, posX: int, posY: int, distGain, curDist, prevDir) -> None:
+        self.curDist = curDist
         self.x = posX
         self.y = posY
         self.gain = distGain
+        self.prevDir = prevDir
         pass
 
 
@@ -59,7 +60,15 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
             and [newPos, node.y] not in visited
         ):
             distGain = 1 if abs(goalX - node.x) - abs(goalX - newPos) > 0 else -1
-            curNodes.append(Node(newPos, node.y, distGain, node.curDist))
+            curNodes.append(
+                Node(
+                    newPos,
+                    node.y,
+                    distGain,
+                    node.curDist if node.prevDir == 0 else node.curDist + 1,
+                    0,
+                )
+            )
             visited.append([newPos, node.y])
 
         newPos = node.y + 1
@@ -69,7 +78,15 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
             and [node.x, newPos] not in visited
         ):
             distGain = 1 if abs(goalY - node.y) - abs(goalY - newPos) > 0 else -1
-            curNodes.append(Node(node.x, newPos, distGain, node.curDist))
+            curNodes.append(
+                Node(
+                    node.x,
+                    newPos,
+                    distGain,
+                    node.curDist if node.prevDir == 1 else node.curDist + 1,
+                    1,
+                )
+            )
             visited.append([node.x, newPos])
 
         newPos = node.x - 1
@@ -79,7 +96,15 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
             and [newPos, node.y] not in visited
         ):
             distGain = 1 if abs(goalX - node.x) - abs(goalX - newPos) > 0 else -1
-            curNodes.append(Node(newPos, node.y, distGain, node.curDist))
+            curNodes.append(
+                Node(
+                    newPos,
+                    node.y,
+                    distGain,
+                    node.curDist if node.prevDir == 2 else node.curDist + 1,
+                    2,
+                )
+            )
             visited.append([newPos, node.y])
 
         newPos = node.y - 1
@@ -89,7 +114,16 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
             and [node.x, newPos] not in visited
         ):
             distGain = 1 if abs(goalY - node.y) - abs(goalY - newPos) > 0 else -1
-            curNodes.append(Node(node.x, newPos, distGain, node.curDist))
+            curNodes.append(
+                Node(
+                    node.x,
+                    newPos,
+                    distGain,
+                    node.curDist if node.prevDir == 3 else node.curDist + 1,
+                    node.curDist,
+                    3,
+                )
+            )
             visited.append([node.x, newPos])
 
 
