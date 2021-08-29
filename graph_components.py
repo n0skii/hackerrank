@@ -36,24 +36,32 @@ def componentsInGraph(gb):
 
             currentClusterNum += 1
         elif not firstIn:
-            id, toChange = getAndChangeIds(clusterMap[overallMap[edge[1]]])
+            id, toChange = getAndChangeIds(clusterMap[overallMap[edge[1]]], clusterMap)
+            finalCluster = clusterMap[id]
             for iid in toChange:
-                clusterMap[iid] = id
+                clusterMap[iid] = finalCluster
             clusterMap[id].items += 1
             overallMap[edge[0]] = overallMap[edge[1]]
         elif not secondIn:
-            id, toChange = getAndChangeIds(clusterMap[overallMap[edge[0]]])
+            id, toChange = getAndChangeIds(clusterMap[overallMap[edge[0]]], clusterMap)
+            finalCluster = clusterMap[id]
             for iid in toChange:
-                clusterMap[iid] = id
+                clusterMap[iid] = finalCluster
             clusterMap[id].items += 1
             overallMap[edge[1]] = overallMap[edge[0]]
         else:
-            leftClusterId, toChange = getAndChangeIds(clusterMap[overallMap[edge[0]]])
+            leftClusterId, toChange = getAndChangeIds(
+                clusterMap[overallMap[edge[0]]], clusterMap
+            )
+            leftCluster = clusterMap[leftClusterId]
             for iid in toChange:
-                clusterMap[iid] = leftClusterId
-            rightClusterId, toChange = getAndChangeIds(clusterMap[overallMap[edge[1]]])
+                clusterMap[iid] = leftCluster
+            rightClusterId, toChange = getAndChangeIds(
+                clusterMap[overallMap[edge[1]]], clusterMap
+            )
+            rightCluster = clusterMap[rightClusterId]
             for iid in toChange:
-                clusterMap[iid] = rightClusterId
+                clusterMap[iid] = rightCluster
 
             if (
                 clusterMap[leftClusterId].clusterNum
@@ -66,10 +74,11 @@ def componentsInGraph(gb):
     max = float("-inf")
     for value in overallMap.values():
         length = clusterMap[value].items
-        if length < min:
-            min = length
-        if length > max:
-            max = length
+        if clusterMap[value].clusterNum == value:
+            if length < min:
+                min = length
+            if length > max:
+                max = length
     return [min, max]
 
 
