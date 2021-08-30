@@ -23,8 +23,7 @@ def isBalanced(s):
             stack.append(char)
         else:
             if len(stack) == 0:
-                print("NO")
-                return
+                return "NO"
             lastBracket = stack.pop()
             match = False
             for i in range(3):
@@ -32,12 +31,11 @@ def isBalanced(s):
                     match = True
                     break
             if not match:
-                print("NO")
-                return
+                return "NO"
     if len(stack) == 0:
-        print("YES")
+        return "YES"
     else:
-        print("NO")
+        return "NO"
 
 
 if __name__ == "__main__":

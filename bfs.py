@@ -31,25 +31,14 @@ class Node:
 
 def minimumMoves(grid, startX, startY, goalX, goalY):
     n = len(grid)
-    root = Node(startX, startY, 0, 0)
+    root = Node(startX, startY, 0, 0, -1)
     curNodes = [root]
 
     visited = list([startX, startY])
 
+    bestNode: Node = curNodes[0]
+    bestInd = 0
     while True:
-        bestNode: Node = None
-        bestInd = None
-        for i, node in enumerate(curNodes):
-            node: Node
-            if node.x == goalX and node.y == goalY:
-                return node.curDist
-            if (
-                bestNode == None
-                or bestNode.gain < node.gain
-                or (bestNode.gain == node.gain and bestNode.curDist > node.curDist)
-            ):
-                bestNode = node
-                bestInd = i
         curNodes.pop(bestInd)
         node = bestNode
 
@@ -120,11 +109,22 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
                     newPos,
                     distGain,
                     node.curDist if node.prevDir == 3 else node.curDist + 1,
-                    node.curDist,
                     3,
                 )
             )
             visited.append([node.x, newPos])
+
+        for i, node in enumerate(curNodes):
+            node: Node
+            if node.x == goalX and node.y == goalY:
+                return node.curDist
+            if (
+                bestNode == None
+                or bestNode.gain < node.gain
+                or (bestNode.gain == node.gain and bestNode.curDist > node.curDist)
+            ):
+                bestNode = node
+                bestInd = i
 
 
 if __name__ == "__main__":

@@ -37,9 +37,11 @@ class Node(object):
 def contacts(queries):
     # Write your code here
     trie = Node()
+    toReturn = list()
 
     for q in queries:
-        action, content = q.split(" ")
+        action, content = q
+        print(action, content)
         if action == "add":
             curNode: Node = trie
             for c in content:
@@ -49,16 +51,22 @@ def contacts(queries):
                 else:
                     toAdd = Node()
                     toAdd.count = 1
-                    curNode.childMap[c] = Node()
+                    curNode.childMap[c] = toAdd
                     curNode = toAdd
         if action == "find":
             curNode: Node = trie
+            alreadyDone = False
             for c in content:
                 if c in curNode.childMap:
+                    print(c)
                     curNode = curNode.childMap[c]
                 else:
-                    return 0
-            return curNode.count
+                    toReturn.append(0)
+                    alreadyDone = True
+                    break
+            if not alreadyDone:
+                toReturn.append(curNode.count)
+    return toReturn
 
 
 if __name__ == "__main__":
